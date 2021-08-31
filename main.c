@@ -32,7 +32,9 @@ void	exec_cmd(int in_stream, int out_stream, t_param param, char **e)
 	close(out_stream);
 	cpt = -1;
 	while (param.paths[++cpt])
+	{
 		execve(param.paths[cpt], param.cmd, e);
+	}
 	ft_error(param.cmd[0], 1);
 }
 
@@ -80,7 +82,7 @@ int	main(int ac, char **av, char **e)
 {
 	t_param	param[2];
 	int		fd[2];
-	int		pipes[2];
+	int		pipefd[2];
 	int		child;
 	int		status;
 
@@ -90,28 +92,25 @@ int	main(int ac, char **av, char **e)
 		ft_error(av[1], 2);
 	fd[0] = open(av[1], O_RDONLY);
 	fd[1] = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	pipe(pipes);
+	pipe(pipefd);
 	param[0].cmd = ft_split(av[2], ' ');
 	param[1].cmd = ft_split(av[3], ' ');
 	param[0].paths = get_cmds(e, param[0].cmd[0]);
 	param[1].paths = get_cmds(e, param[1].cmd[0]);
 	child = fork();
-	if (child < 0)
-		ft_error("Fork error\n", 0);
-	else if (!child)
+	if (!child)
 	{
-		close(pipes[0]);
-		exec_cmd(fd[0], pipes[1], param[0], e);
+		close(pipefd[0]);
+		exec_cmd(fd[0], pipefd[1], param[0], e);
 	}
 	waitpid(child, 0, 0);
 	child = fork();
-	if (child < 0)
-		ft_error("Fork error\n", 0);
-	else if (!child)
+	if (!child)
 	{
-		close(pipes[1]);
-		exec_cmd(pipes[0], fd[1], param[1], e);
+		close(pipefd[1]);
+		exec_cmd(pipefd[0], fd[1], param[1], e);
 	}
+	close(pipefd[1]);
 	waitpid(child, &status, 0);
 	ft_free_matrix(param, 2);
 	return (0);
