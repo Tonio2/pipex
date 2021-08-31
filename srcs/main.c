@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 23:13:35 by alabalet          #+#    #+#             */
-/*   Updated: 2021/08/31 23:50:46 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/01 00:39:53 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(int ac, char **av, char **e)
 	int		fd[2];
 	int		pipefd[2];
 
-	if (ac < 5 || !ft_strlen(av[2]) || !ft_strlen(av[3]))
+	if (ac != 5 || !ft_strlen(av[2]) || !ft_strlen(av[3]))
 		ft_error("Usage: ./pipex infile cmd1 cmd2 outfile\n", 0);
 	pipe(pipefd);
 	init_params(fd, param, av, e);
