@@ -1,19 +1,31 @@
 NAME	=	pipex
 
-CFLAGS	=	-Wall -Werror -Wextra
+CFLAGS	=	-Wall -Werror -Wextra -I ./includes
+
+SDIR	=	srcs
+_SRCS	=	main.c	\
+			utils.c
+SRCS	=	$(patsubst %, $(SDIR)/%, $(_SRCS))
+
+ODIR	=	.objs
+_OBJS	=	$(_SRCS:.c=.o)
+OBJS	=	$(patsubst %, $(ODIR)/%, $(_OBJS))
 
 all: $(NAME)
 
-$(NAME): main.o utils.o
+$(NAME): .objs $(OBJS)
 	make -C ./libft
-	gcc $(CFLAGS) main.o utils.o ./libft/libft.a -o $(NAME)
+	gcc $(CFLAGS) $(OBJS) ./libft/libft.a -o $(NAME)
 
-.c.o:
+.objs:
+	mkdir .objs
+
+$(ODIR)/%o: $(SDIR)/%c
 	gcc -c $(CFLAGS) $^ -o $@
 
 clean:
 	make clean -C ./libft
-	rm -f main.o
+	rm -f $(OBJS)
 
 fclean: clean
 	make fclean -C ./libft

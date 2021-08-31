@@ -1,5 +1,4 @@
 pipex
+libft.a
 *.o
-*.a
-infile
-outfile
+f/
