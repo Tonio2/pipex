@@ -42,7 +42,8 @@ void	ft_free_matrix(t_param *param, int nb_param)
 	int	cpt2;
 
 	cpt = -1;
-	while (++cpt < nb_param) {
+	while (++cpt < nb_param)
+	{
 		cpt2 = -1;
 		while (param[cpt].paths[++cpt2])
 			free(param[cpt].paths[cpt2]);
@@ -62,14 +63,21 @@ void	ft_error(char *str, int type)
 	}
 	else if (type == 1)
 	{
-		ft_putstr_fd("pipex: ", 2);
+		ft_putstr_fd("pipex: command not found: ", 2);
 		ft_putstr_fd(str, 2);
-		ft_putstr_fd(": command not found\n", 2);
+		ft_putstr_fd("\n", 2);
+	}
+	else
+	{
+		ft_putstr_fd("pipex: no such file or directory: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("\n", 2);
 	}
 	exit(EXIT_FAILURE);
 }
 
-int	main(int ac, char **av, char **e) {
+int	main(int ac, char **av, char **e)
+{
 	t_param	param[2];
 	int		fd[2];
 	int		pipes[2];
@@ -78,7 +86,8 @@ int	main(int ac, char **av, char **e) {
 
 	if (ac < 5)
 		ft_error("Usage: ./pipex infile cmd1 cmd2 outfile\n", 0);
-	//check infile
+	if (access(av[1], R_OK) == -1)
+		ft_error(av[1], 2);
 	fd[0] = open(av[1], O_RDONLY);
 	fd[1] = open(av[4], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	pipe(pipes);
@@ -89,19 +98,19 @@ int	main(int ac, char **av, char **e) {
 	child = fork();
 	if (child < 0)
 		ft_error("Fork error\n", 0);
-	if (!child)
+	else if (!child)
 	{
-		close(pipes[1]);
-		exec_cmd(fd[0], pipes[0], param[0], e);
+		close(pipes[0]);
+		exec_cmd(fd[0], pipes[1], param[0], e);
 	}
-	waitpid(child, &status, 0);
+	waitpid(child, 0, 0);
 	child = fork();
 	if (child < 0)
 		ft_error("Fork error\n", 0);
-	if (!child)
+	else if (!child)
 	{
-		close(pipes[0]);
-		exec_cmd(pipes[1], fd[1], param[1], e);
+		close(pipes[1]);
+		exec_cmd(pipes[0], fd[1], param[1], e);
 	}
 	waitpid(child, &status, 0);
 	ft_free_matrix(param, 2);
