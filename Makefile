@@ -4,9 +4,9 @@ CFLAGS	=	-Wall -Werror -Wextra
 
 all: $(NAME)
 
-$(NAME): main.o
+$(NAME): main.o utils.o
 	make -C ./libft
-	gcc $(CFLAGS) main.o ./libft/libft.a -o $(NAME)
+	gcc $(CFLAGS) main.o utils.o ./libft/libft.a -o $(NAME)
 
 .c.o:
 	gcc -c $(CFLAGS) $^ -o $@
