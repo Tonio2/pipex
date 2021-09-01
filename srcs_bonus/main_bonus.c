@@ -56,39 +56,40 @@ void	init_vars(t_vars *v, int ac, char **av, char **e)
 	init_params(v->n, v->param, av, e);
 }
 
-int	main(int ac, char **av, char **e)
-{
-	t_vars	v;
-	int		cpt;
+void exec_cmds(t_vars v, char **e) {
+	int	cpt;
 
-	if (ac < 5)
-		ft_error("Usage: ./pipex infile cmd1 cmd2 [... cmd_n] outfile\n", 0);
-	init_vars(&v, ac, av, e);
 	if (!fork())
 	{
 		close(v.pipefd[0][0]);
 		exec_cmd(v.fd[0], v.pipefd[0][1], v.param[0], e);
 	}
+	close(v.pipefd[0][1]);
 	waitpid(-1, 0, 0);
 	cpt = 0;
 	while (++cpt < v.n - 1)
 	{
 		if (!fork())
 		{
-			close(v.pipefd[cpt - 1][1]);
 			close(v.pipefd[cpt][0]);
 			exec_cmd(v.pipefd[cpt - 1][0], v.pipefd[cpt][1], v.param[cpt], e);
 		}
-		close(v.pipefd[cpt - 1][1]);
+		close(v.pipefd[cpt][1]);
 		waitpid(-1, 0, 0);
 	}
 	if (!fork())
-	{
-		close(v.pipefd[v.n - 2][1]);
 		exec_cmd(v.pipefd[v.n - 2][0], v.fd[1], v.param[v.n - 1], e);
-	}
-	close(v.pipefd[v.n - 2][1]);
 	waitpid(-1, 0, 0);
 	ft_free_matrix(v.param, 2);
+}
+
+int	main(int ac, char **av, char **e)
+{
+	t_vars	v;
+
+	if (ac < 5)
+		ft_error("Usage: ./pipex infile cmd1 cmd2 [... cmd_n] outfile\n", 0);
+	init_vars(&v, ac, av, e);
+	exec_cmds(v, e);
 	return (0);
 }
