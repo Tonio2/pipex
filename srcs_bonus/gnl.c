@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 15:14:17 by alabalet          #+#    #+#             */
-/*   Updated: 2021/09/02 18:04:37 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/02 19:54:33 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #define BUFFER_SIZE 4096
 
-void	ft_free(char *str)
+void	my_free(char *str)
 {
 	if (str)
 		free(str);
@@ -96,6 +96,6 @@ char	*get_next_line(int fd)
 	}
 	if (read_status == 0)
 		return (line);
-	ft_free(line);
+	my_free(line);
 	return (0);
 }
