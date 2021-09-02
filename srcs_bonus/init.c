@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 18:51:45 by alabalet          #+#    #+#             */
-/*   Updated: 2021/09/02 18:52:12 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/02 19:00:24 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ void	init_tmpfile(t_vars *v, char **av)
 void	init_vars2(t_vars *v, char **av, char **e)
 {
 	v->n = 2;
+	if (!ft_strlen(av[3]) || !ft_strlen(av[4]))
+		ft_error("Usage: ./pipex here_doc DELIMITER cmd1 cmd2 outfile\n", 0);
 	v->pipefd = malloc(sizeof(int *));
 	v->pipefd[0] = malloc(2 * sizeof(int));
 	pipe(v->pipefd[0]);
