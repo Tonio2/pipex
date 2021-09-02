@@ -16,7 +16,8 @@ NAME_B	=	pipex_bonus
 SDIR_B	=	srcs_bonus
 _SRCS_B	=	main_bonus.c	\
 			utils_bonus.c	\
-			gnl.c
+			gnl.c			\
+			init.c
 SRCS_B	=	$(patsubst %, $(SDIR_B)/%, $(_SRCS_B))
 
 ODIR_B	=	.objs_bonus

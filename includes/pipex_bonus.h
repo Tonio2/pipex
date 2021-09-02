@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 23:14:44 by alabalet          #+#    #+#             */
-/*   Updated: 2021/09/02 18:04:25 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/02 18:53:57 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,10 @@ int		parse_buf(char **line, char *buf);
 void	ft_strcpy(char *dst, char *src);
 int		my_strlen(char *str);
 void	ft_free(char *str);
+
+void	init_vars2(t_vars *v, char **av, char **e);
+void	init_tmpfile(t_vars *v, char **av);
+void	init_vars(t_vars *v, int ac, char **av, char **e);
+void	init_params(int n, t_param *param, char **av, char **e);
+void	init_fd(int fd[2], int n, char **av);
 #endif
