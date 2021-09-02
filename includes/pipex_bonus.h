@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 23:14:44 by alabalet          #+#    #+#             */
-/*   Updated: 2021/09/02 15:48:36 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/02 18:04:25 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,4 +46,5 @@ char	*get_next_line(int fd);
 int		parse_buf(char **line, char *buf);
 void	ft_strcpy(char *dst, char *src);
 int		my_strlen(char *str);
+void	ft_free(char *str);
 #endif
