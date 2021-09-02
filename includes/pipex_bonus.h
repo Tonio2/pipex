@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 23:14:44 by alabalet          #+#    #+#             */
-/*   Updated: 2021/09/01 19:23:38 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/02 15:08:53 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,9 @@ char	**get_cmds(char **e, char *cmd);
 void	exec_cmd(int in_stream, int out_stream, t_param param, char **e);
 void	ft_free_matrix(t_param *param, int nb_param);
 void	ft_error(char *str, int type);
+
+char	*get_next_line(int fd);
+int		parse_buf(char **line, char *buf);
+void	ft_strcpy(char *dst, char *src);
+int		my_strlen(char *str);
 #endif

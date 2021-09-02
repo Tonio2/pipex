@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 23:13:35 by alabalet          #+#    #+#             */
-/*   Updated: 2021/09/01 19:31:08 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/02 15:07:55 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	init_vars(t_vars *v, int ac, char **av, char **e)
 	init_params(v->n, v->param, av, e);
 }
 
-void exec_cmds(t_vars v, char **e) {
+void	exec_cmds(t_vars v, char **e)
+{
 	int	cpt;
 
 	if (!fork())

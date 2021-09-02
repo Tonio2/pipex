@@ -37,21 +37,15 @@ int	parse_buf(char **line, char *buf)
 	int		parsing_status;
 
 	tmp = malloc(my_strlen(*line) + my_strlen(buf) + 1);
-	cpt = 0;
+	cpt = -1 + (*line == 0);
 	if (*line)
 	{
-		while ((*line)[cpt])
-		{
+		while ((*line)[++cpt])
 			tmp[cpt] = (*line)[cpt];
-			cpt++;
-		}
 	}
-	cpt2 = 0;
-	while (buf[cpt2] && buf[cpt2] != '\n')
-	{
+	cpt2 = -1;
+	while (buf[++cpt2] && buf[cpt2] != '\n')
 		tmp[cpt + cpt2] = buf[cpt2];
-		cpt2++;
-	}
 	parsing_status = (buf[cpt2] == '\n');
 	tmp[cpt + cpt2] = buf[cpt2];
 	tmp[cpt + cpt2 + parsing_status] = 0;
@@ -91,23 +85,3 @@ char	*get_next_line(int fd)
 		free(line);
 	return (0);
 }
-
-int	main(void)
-{
-	int		fd;
-	char	*line;
-
-	fd = 0;
-	line = get_next_line(fd);
-	while (ft_strncmp(line, "EOF\n", 4))
-	{
-		printf("%s", line);
-		free(line);
-		line = get_next_line(fd);
-	}
-	free(line);
-	close(fd);
-	return (0);
-}
-
-
