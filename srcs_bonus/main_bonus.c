@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 23:13:35 by alabalet          #+#    #+#             */
-/*   Updated: 2021/09/02 15:12:31 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/02 15:21:50 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,18 @@ int	main(int ac, char **av, char **e)
 {
 	t_vars	v;
 
-	if (ac < 5)
-		ft_error("Usage: ./pipex infile cmd1 cmd2 [... cmd_n] outfile\n", 0);
-	init_vars(&v, ac, av, e);
+	if (ac > 2 && !ft_strncmp(av[1], "here_doc", 9))
+	{
+		if (ac != 6)
+			ft_error("Usage: ./pipex here_doc DELIMITER cmd1 cmd2 outfile\n", 0);
+		init_vars2(&v, ac, av, e);
+	}
+	else
+	{
+		if (ac < 5)
+			ft_error("Usage: ./pipex infile cmd1 cmd2 [... cmd_n] outfile\n", 0);
+		init_vars(&v, ac, av, e);
+	}
 	exec_cmds(v, e);
 	return (0);
 }
