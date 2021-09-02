@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 23:13:35 by alabalet          #+#    #+#             */
-/*   Updated: 2021/09/02 15:48:44 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/02 18:43:54 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	init_fd(int fd[2], int n, char **av)
 		ft_error(av[n + 2], 2);
 }
 
-void	init_params(int n, t_param param[2], char **av, char **e)
+void	init_params(int n, t_param *param, char **av, char **e)
 {
 	int	cpt;
 
@@ -62,12 +62,12 @@ void	init_vars2(t_vars *v, char **av, char **e)
 	char	*delim;
 	int		cpt;
 
-	v->fd[0] = open("f/.tmp", O_RDWR | O_CREAT | O_TRUNC, 0644);
+	v->fd[0] = open("f/.tmp", O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (v->fd[0] == -1)
 		ft_error(strerror(errno), 0);
-	v->fd[1] = open(av[4], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	v->fd[1] = open(av[5], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (v->fd[1] == -1)
-		ft_error(av[4], 2);
+		ft_error(av[5], 2);
 	delim = malloc(ft_strlen(av[2]) + 2);
 	cpt = -1;
 	while (av[2][++cpt])
@@ -81,8 +81,16 @@ void	init_vars2(t_vars *v, char **av, char **e)
 		line = get_next_line(0);
 	}
 	free(delim);
+	close(v->fd[0]);
+	v->fd[0] = open("f/.tmp", O_RDONLY);
+	if (v->fd[0] == -1)
+		ft_error(strerror(errno), 0);
 	v->param = malloc(2 * sizeof(t_param));
 	init_params(2, v->param, av + 1, e);
+	v->n = 2;
+	v->pipefd = malloc(sizeof(int *));
+	v->pipefd[0] = malloc(2 * sizeof(int));
+	pipe(v->pipefd[0]);
 }
 
 void	exec_cmds(t_vars v, char **e)
@@ -122,13 +130,16 @@ int	main(int ac, char **av, char **e)
 		if (ac != 6)
 			ft_error("Usage: ./pipex here_doc DELIMITER cmd1 cmd2 outfile\n", 0);
 		init_vars2(&v, av, e);
+		exec_cmds(v, e);
+		close(v.fd[0]);
+		unlink("f/.tmp");
 	}
 	else
 	{
 		if (ac < 5)
 			ft_error("Usage: ./pipex infile cmd1 cmd2 [... cmd_n] outfile\n", 0);
 		init_vars(&v, ac, av, e);
+		exec_cmds(v, e);
 	}
-	exec_cmds(v, e);
 	return (0);
 }
