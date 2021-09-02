@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/08/31 23:14:44 by alabalet          #+#    #+#             */
-/*   Updated: 2021/09/02 15:08:53 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/02 15:48:36 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <string.h>
+# include <errno.h>
 
 typedef struct s_param
 {

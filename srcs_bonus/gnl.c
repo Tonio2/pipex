@@ -6,7 +6,7 @@
 /*   By: alabalet <alabalet@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/02 15:14:17 by alabalet          #+#    #+#             */
-/*   Updated: 2021/09/02 15:14:40 by alabalet         ###   ########.fr       */
+/*   Updated: 2021/09/02 15:50:50 by alabalet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ char	*get_next_line(int fd)
 	int			read_status;
 
 	line = 0;
+	parsing_status = 0;
 	if (buf[0])
 		parsing_status = parse_buf(&line, buf);
 	if (parsing_status == 1)
